@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>Responsive Retina-Friendly Menu</title>
+		<meta name="description" content="Responsive Retina-Friendly Menu with different, size-dependent layouts" />
+		<meta name="keywords" content="responsive menu, retina-ready, icon font, media queries, css3, transition, mobile" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="../favicon.ico"> 
+		<link rel="stylesheet" type="text/css" href="css/default.css" />
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<script src="js/modernizr.custom.js"></script>
+	</head>
+  <style>
+    $red: #F37272;
+$brown: #584E4A;
+$whitey: #f0f0f0;
+
+$snap: cubic-bezier(1.000, 0.005, 0.240, 1.000);
+$bounce: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+.page {
+  height: 100%;
+  background-color: $brown;
+}
+.content {
+  // essential
+  height: 200%; // make higher or you'll see background when rotated
+  transform-origin: top left;
+  transition: transform .7s $snap;
+  
+  // styling
+  background-color: $whitey;
+}
+.content_inner {
+  // essential
+  height: 50%; // compensate for higher .content
+  overflow-y: auto; // set expected overflow
+  
+  // styling
+  padding: 50px 20%;
+}
+
+/* basically all styling from now on */
+.menu_toggle {
+  z-index: 900;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  cursor: pointer;
+  width: 100px;
+  height: 80px;
+  background-color: $red;
+  border-bottom-right-radius: 100%;
+  
+  &:active {
+    i {
+      opacity: 0.8
+    }
+  }  
+  i {
+    color: $whitey;
+  }
+  .menu_open,
+  .menu_close {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -12px;
+    transition: transform .7s $snap;
+  }
+  .menu_open {
+    transform-origin: -100px -100px;
+  }
+  .menu_close {
+    transform: rotate(20deg);
+    transform-origin: -100px -160px;
+  }
+}
+.menu_items {
+  position: fixed;
+  bottom: 0;
+  left: 50px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  
+  li {
+    height: 60px;
+    margin-bottom: 30px;
+    transform: translateX(-300px);
+    transition: transform .7s 0s $snap;
+    
+    &:nth-child(2){
+      margin-left: 40px;
+    }
+    &:nth-child(3){
+      margin-left: 80px;
+    }
+  }
+  a {
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: darken($whitey, 30%);
+    transition: color .2s;
+    
+    .icon {
+      position: relative;
+      display: inline-block;
+      margin-right: 25px;
+      color: $whitey;
+
+      &:after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        content: '';
+        display: block;
+        width: 60px;
+        height: 60px;
+        margin-left: -33px;
+        margin-top: -32px;
+        border-radius: 100%;
+        border: 2px solid $whitey;
+        transition: border-color .2s;
+      }
+    }
+    
+    &:hover {
+      color: $whitey;
+      .icon {
+        &:after {
+          border-color: $red;
+        }
+      }
+    }
+    &:active {
+      .icon {
+        color: $red;
+      }
+    }
+  }
+}
+
+
+/* Let's open up the menu */
+.shazam {
+  .content {
+    transform: rotate(-30deg);
+  }
+  
+  // this will show hidden content overflow when rotated,
+  // but will result in a jump, if you've already scrolled down the content
+  // plus, you will lose your current reading position
+  // fixable with JS, not gonna bother
+  
+  /*.content_inner {
+    height: 100%;
+  }*/
+  
+  .menu_open {
+    transform: rotate(-20deg);
+  }
+  .menu_close {
+    transform: rotate(0);
+  }
+  
+  .menu_items {
+    li {
+      transform: translateX(0);
+      transition: transform .35s .45s $bounce;
+    
+      &:nth-child(2){
+        transition-delay: .47s;
+      }
+      &:nth-child(3){
+        transition-delay: .48s;
+      }
+    }
+  }
+}
+
+// misc
+h1 {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+body {
+  color: $brown;
+}
+  </style>
+	<body>
+    <div class="page">
+  <span class="menu_toggle">
+    <i class="menu_open fa fa-bars fa-lg"></i>
+    <i class="menu_close fa fa-times fa-lg"></i>
+  </span>
+  <ul class="menu_items">
+    <li><a href="#"><i class="icon fa fa-signal fa-2x"></i> Moar</a></li>
+    <li><a href="#"><i class="icon fa fa-coffee fa-2x"></i> Coffee</a></li>
+    <li><a href="#"><i class="icon fa fa-heart fa-2x"></i> Please</a></li>
+  </ul>
+  <main class="content">
+    <div class="content_inner">
+      <h1>The mysterious red button of doom</h1>
+      <p>Do <strong>not</strong> push that big, red button in the corner. People will die. You have been warned. Do&hellip; not do it.</p>
+        
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel dolorem, ducimus laudantium, earum eos natus sint voluptatum dolores fuga quibusdam consectetur dicta. Laudantium enim inventore iusto ducimus est velit aperiam tempora quibusdam id dolore natus perferendis, debitis distinctio optio repellendus, repellat molestias delectus harum eius, reiciendis dicta ipsum architecto! Eligendi expedita in beatae, placeat unde voluptatibus voluptates consectetur explicabo laudantium, officiis ad nihil. Beatae similique voluptate sequi voluptatem delectus iure in omnis, fuga ipsam nulla ipsum architecto, iste debitis nisi labore quisquam odio accusantium corporis sint perspiciatis. Excepturi earum nobis soluta, doloremque nihil dolorum illum quaerat magnam nemo non sed!</p>
+      
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel dolorem, ducimus laudantium, earum eos natus sint voluptatum dolores fuga quibusdam consectetur dicta. Laudantium enim inventore iusto ducimus est velit aperiam tempora quibusdam id dolore natus perferendis, debitis distinctio optio repellendus, repellat molestias delectus harum eius, reiciendis dicta ipsum architecto! Eligendi expedita in beatae, placeat unde voluptatibus voluptates consectetur explicabo laudantium, officiis ad nihil. Beatae similique voluptate sequi voluptatem delectus iure in omnis, fuga ipsam nulla ipsum architecto, iste debitis nisi labore quisquam odio accusantium corporis sint perspiciatis. Excepturi earum nobis soluta, doloremque nihil dolorum illum quaerat magnam nemo non sed!</p>
+      
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel dolorem, ducimus laudantium, earum eos natus sint voluptatum dolores fuga quibusdam consectetur dicta. Laudantium enim inventore iusto ducimus est velit aperiam tempora quibusdam id dolore natus perferendis, debitis distinctio optio repellendus, repellat molestias delectus harum eius, reiciendis dicta ipsum architecto! Eligendi expedita in beatae, placeat unde voluptatibus voluptates consectetur explicabo laudantium, officiis ad nihil. Beatae similique voluptate sequi voluptatem delectus iure in omnis, fuga ipsam nulla ipsum architecto, iste debitis nisi labore quisquam odio accusantium corporis sint perspiciatis. Excepturi earum nobis soluta, doloremque nihil dolorum illum quaerat magnam nemo non sed!</p>
+    </div>
+  </main>
+</div>
+<script>
+  // elements
+var $page = $('.page');
+
+$('.menu_toggle').on('click', function(){
+  $page.toggleClass('shazam');
+});
+$('.content').on('click', function(){
+  $page.removeClass('shazam');
+});
+</script>
+	</body>
+</html>
